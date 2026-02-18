@@ -8,7 +8,7 @@
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
     background: linear-gradient(145deg, #1a3b2a 0%, #0f2b1c 100%);
     min-height: 100vh;
     display: flex;
@@ -17,56 +17,6 @@ body {
     padding: 12px;
     overflow-x: hidden;
     transition: background 0.3s;
-}
-
-/* ==================== TYPOGRAPHY & ICONS ==================== */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
-
-/* Real piece icons using Unicode (better compatibility) */
-.piece-icon {
-    display: inline-block;
-    font-size: inherit;
-    line-height: 1;
-}
-
-.white-turn::before {
-    content: "♔";
-    font-size: 3rem;
-    color: #fff;
-    text-shadow: 2px 2px 2px rgba(0,0,0,0.5);
-}
-
-.black-turn::before {
-    content: "♚";
-    font-size: 3rem;
-    color: #333;
-    text-shadow: 2px 2px 2px rgba(0,0,0,0.3);
-}
-
-.white-piece-small::before {
-    content: "♔";
-    font-size: 1.5rem;
-    color: #fff;
-    filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.5));
-}
-
-.black-piece-small::before {
-    content: "♚";
-    font-size: 1.5rem;
-    color: #333;
-    filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.3));
-}
-
-.icon-reset::before {
-    content: "↻";
-    font-size: 1.4rem;
-    margin-right: 8px;
-}
-
-.icon-menu::before {
-    content: "☰";
-    font-size: 1.4rem;
-    margin-right: 8px;
 }
 
 /* ==================== MENU STYLES ==================== */
@@ -84,7 +34,7 @@ body {
 }
 
 .game-title {
-    font-size: clamp(2.5rem, 8vw, 4rem);
+    font-size: clamp(2rem, 6vw, 3.5rem);
     font-weight: 800;
     color: #ffecce;
     text-shadow: 3px 3px 0 #2b1d0e, 5px 5px 0 rgba(0,0,0,0.3);
@@ -93,7 +43,7 @@ body {
 }
 
 .menu-subtitle {
-    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
     color: #e9c9a0;
     margin-bottom: 30px;
     font-weight: 600;
@@ -112,11 +62,11 @@ body {
     padding: 18px 25px;
     border: none;
     border-radius: 60px;
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     font-weight: 700;
     letter-spacing: 1px;
     cursor: pointer;
-    transition: transform 0.1s, box-shadow 0.1s, filter 0.2s;
+    transition: transform 0.1s, box-shadow 0.1s;
     box-shadow: 0 6px 0 #4a3a2a, 0 8px 16px black;
 }
 
@@ -135,14 +85,14 @@ body {
 .mode-btn, .difficulty-btn {
     background: #8b6f4c;
     color: #fcf3e0;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     padding: 15px 20px;
 }
 
 .back-btn {
     background: #3f3327;
     color: #d9c49c;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     padding: 12px 20px;
     margin-top: 10px;
     box-shadow: 0 4px 0 #2f251c;
@@ -247,6 +197,18 @@ body {
     padding: 12px 10px;
 }
 
+.icon-reset::before {
+    content: "↻";
+    font-size: 1.4rem;
+    margin-right: 8px;
+}
+
+.icon-menu::before {
+    content: "☰";
+    font-size: 1.4rem;
+    margin-right: 8px;
+}
+
 /* Captured Section */
 .captured-title {
     font-size: 1.5rem;
@@ -284,14 +246,6 @@ body {
     align-items: center;
     gap: 8px;
     color: #ffdb9f;
-}
-
-.white-label .piece-icon::before {
-    color: #fff;
-}
-
-.black-label .piece-icon::before {
-    color: #333;
 }
 
 .captured-count {
@@ -344,7 +298,6 @@ td {
     vertical-align: middle;
     cursor: pointer;
     transition: background 0.1s, transform 0.05s;
-    font-size: min(6vw, 55px);
 }
 
 td.light {
@@ -369,20 +322,70 @@ td:active {
     transform: scale(0.96);
 }
 
-/* Piece styles - using Unicode for real piece icons */
-.piece-king-white::before { content: "♔"; }
-.piece-queen-white::before { content: "♕"; }
-.piece-rook-white::before { content: "♖"; }
-.piece-bishop-white::before { content: "♗"; }
-.piece-knight-white::before { content: "♘"; }
-.piece-pawn-white::before { content: "♙"; }
+/* ==================== PIECE STYLES WITH IMAGES ==================== */
+.piece {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
 
-.piece-king-black::before { content: "♚"; }
-.piece-queen-black::before { content: "♛"; }
-.piece-rook-black::before { content: "♜"; }
-.piece-bishop-black::before { content: "♝"; }
-.piece-knight-black::before { content: "♞"; }
-.piece-pawn-black::before { content: "♟"; }
+/* Gambar untuk masing-masing jenis piece */
+.king { background-image: url('prabowo.png'); }
+.queen { background-image: url('titiek.png'); }
+.rook { background-image: url('teddy.png'); }
+.bishop { background-image: url('natalius.png'); }
+.knight { background-image: url('gibran.png'); }
+.pawn { background-image: url('bahlil.png'); }
+
+/* Filter kecerahan untuk putih (150%) dan hitam (50%) */
+.white-piece {
+    filter: brightness(1.5);
+}
+
+.black-piece {
+    filter: brightness(0.5);
+}
+
+/* Icon untuk panel (menggunakan Unicode sebagai fallback) */
+.piece-icon {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.white-turn {
+    background-image: url('prabowo.png');
+    filter: brightness(1.5);
+    width: 60px;
+    height: 60px;
+}
+
+.black-turn {
+    background-image: url('prabowo.png');
+    filter: brightness(0.5);
+    width: 60px;
+    height: 60px;
+}
+
+.white-piece-small {
+    background-image: url('bahlil.png');
+    filter: brightness(1.5);
+    width: 30px;
+    height: 30px;
+}
+
+.black-piece-small {
+    background-image: url('bahlil.png');
+    filter: brightness(0.5);
+    width: 30px;
+    height: 30px;
+}
 
 /* ==================== MODAL ==================== */
 .modal-overlay {
@@ -476,10 +479,6 @@ td:active {
         padding: 20px 15px;
     }
 
-    .left-panel, .right-panel {
-        order: 0;
-    }
-
     .turn-indicator {
         width: auto;
         min-width: 140px;
@@ -523,7 +522,6 @@ td:active {
     td {
         width: min(10vw, 70px);
         height: min(10vw, 70px);
-        font-size: min(7vw, 50px);
     }
 }
 
@@ -533,11 +531,11 @@ td:active {
     }
 
     .game-title {
-        font-size: 2.5rem;
+        font-size: 2.2rem;
     }
 
     .menu-btn {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         padding: 14px 20px;
     }
 

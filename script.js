@@ -22,7 +22,7 @@ let gameActive = true;
 
 // Mode game
 let gameMode = '2player';
-let computerDifficulty = 'INTERMEDIATE';
+let computerDifficulty = 'MENENGAH';
 const computerColor = 'b';
 
 // ==================== DOM ELEMENTS ====================
@@ -60,7 +60,7 @@ btnMain.addEventListener('click', () => {
 });
 
 btnKeluar.addEventListener('click', () => {
-    alert('Thank you for playing!');
+    alert('Terima kasih telah bermain!');
 });
 
 backFromMode.addEventListener('click', () => {
@@ -85,19 +85,19 @@ backFromDifficulty.addEventListener('click', () => {
 
 btnPemula.addEventListener('click', () => {
     gameMode = 'computer';
-    computerDifficulty = 'BEGINNER';
+    computerDifficulty = 'PEMULA';
     startNewGame();
 });
 
 btnMenengah.addEventListener('click', () => {
     gameMode = 'computer';
-    computerDifficulty = 'INTERMEDIATE';
+    computerDifficulty = 'MENENGAH';
     startNewGame();
 });
 
 btnAhli.addEventListener('click', () => {
     gameMode = 'computer';
-    computerDifficulty = 'EXPERT';
+    computerDifficulty = 'AHLI';
     startNewGame();
 });
 
@@ -126,21 +126,24 @@ function isWhitePiece(piece) {
     return piece && piece.charCodeAt(0) >= 65 && piece.charCodeAt(0) <= 90;
 }
 
-function getPieceSymbol(piece) {
+function getPieceClass(piece) {
     if (!piece) return '';
 
     const pieceLower = piece.toLowerCase();
     const isWhite = isWhitePiece(piece);
 
+    let typeClass = '';
     switch (pieceLower) {
-        case 'k': return isWhite ? '♔' : '♚';
-        case 'q': return isWhite ? '♕' : '♛';
-        case 'r': return isWhite ? '♖' : '♜';
-        case 'b': return isWhite ? '♗' : '♝';
-        case 'n': return isWhite ? '♘' : '♞';
-        case 'p': return isWhite ? '♙' : '♟';
+        case 'k': typeClass = 'king'; break;
+        case 'q': typeClass = 'queen'; break;
+        case 'r': typeClass = 'rook'; break;
+        case 'b': typeClass = 'bishop'; break;
+        case 'n': typeClass = 'knight'; break;
+        case 'p': typeClass = 'pawn'; break;
         default: return '';
     }
+
+    return `piece ${typeClass} ${isWhite ? 'white-piece' : 'black-piece'}`;
 }
 
 function updateKingPositions() {
@@ -418,13 +421,13 @@ function checkGameState() {
 
     if (whiteInCheck && !hasAnyLegalMove('w')) {
         gameActive = false;
-        winnerText.textContent = 'BLACK WINS';
-        checkmateText.textContent = 'Checkmate!';
+        winnerText.textContent = 'HITAM MENANG';
+        checkmateText.textContent = 'Skakmat!';
         gameOverModal.classList.add('show');
     } else if (blackInCheck && !hasAnyLegalMove('b')) {
         gameActive = false;
-        winnerText.textContent = 'WHITE WINS';
-        checkmateText.textContent = 'Checkmate!';
+        winnerText.textContent = 'PUTIH MENANG';
+        checkmateText.textContent = 'Skakmat!';
         gameOverModal.classList.add('show');
     }
 }
@@ -478,9 +481,9 @@ function movePiece(rowFrom, colFrom, rowTo, colTo) {
 
     if (target) {
         if (isWhitePiece(piece)) {
-            capturedByWhite.push('♟'); // Black piece captured
+            capturedByWhite.push('⚫'); // Black piece captured
         } else {
-            capturedByBlack.push('♙'); // White piece captured
+            capturedByBlack.push('⚪'); // White piece captured
         }
     }
 
@@ -530,10 +533,10 @@ function getBestMove(color) {
     // Sort by value
     moves.sort((a, b) => b.value - a.value);
 
-    if (computerDifficulty === 'BEGINNER') {
+    if (computerDifficulty === 'PEMULA') {
         // Beginner: completely random
         return moves[Math.floor(Math.random() * moves.length)];
-    } else if (computerDifficulty === 'INTERMEDIATE') {
+    } else if (computerDifficulty === 'MENENGAH') {
         // Intermediate: 70% best move, 30% random
         if (Math.random() < 0.7) {
             return moves[0];
@@ -541,7 +544,7 @@ function getBestMove(color) {
             return moves[Math.floor(Math.random() * moves.length)];
         }
     } else {
-        // Expert: always best move, with some positional preference
+        // Expert: always best move
         return moves[0];
     }
 }
@@ -556,7 +559,7 @@ function computerMove() {
             selectedRow = -1;
             selectedCol = -1;
             renderBoard();
-        }, 50);
+        }, 100);
     }
 }
 
@@ -572,7 +575,9 @@ function renderBoard() {
 
             const piece = board[r][c];
             if (piece) {
-                td.textContent = getPieceSymbol(piece);
+                const pieceDiv = document.createElement('div');
+                pieceDiv.className = getPieceClass(piece);
+                td.appendChild(pieceDiv);
             }
 
             if (selectedRow === r && selectedCol === c) td.classList.add('selected');
@@ -603,8 +608,10 @@ function renderBoard() {
         }
     }
 
-    // Update turn display with real piece icon
-    turnDisplay.innerHTML = `<span class="piece-icon ${currentPlayer === 'w' ? 'white-turn' : 'black-turn'}"></span>`;
+    // Update turn display
+    turnDisplay.innerHTML = currentPlayer === 'w' ?
+        '<div class="piece-icon white-turn"></div>' :
+        '<div class="piece-icon black-turn"></div>';
 
     whiteCapturedCount.textContent = capturedByWhite.length;
     blackCapturedCount.textContent = capturedByBlack.length;
